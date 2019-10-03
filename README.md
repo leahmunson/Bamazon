@@ -13,7 +13,13 @@ If you do not have MySQL database set up, you can visit the MySQL installation p
 Once you have the Bamazon database set up, run these commands in the command line to run the customer interface application:
 
 git clone https://github.com/leahmunson/Bamazon.git
+
 cd Bamazon
+
 npm install
+
 node bamazonCustomer.js
 
+Demo:
+
+--need screenshots--
