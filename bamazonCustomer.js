@@ -40,7 +40,7 @@ var itemsForSale = function() {
             colWidths: [12,45,12]
         });
 
-        for (var i=0; i<res.length, i++){
+        for (var i=0; i<res.length; i++){
             showTable.push([res[i].item_id, res[i].product_name, `$${res[i].price}`]);
         }
 
@@ -68,7 +68,7 @@ var askUserForID = function() {
         }
     }
 // Select rows where ID = user inpt
-}).then((answer) {
+}).then((answer) => {
     connection.query('SELECT item_id, product_name, price, stock_quantity FROM products WHERE ?', {item_id: answer.itemID}, (err, res) => {
         // Confirm with user that this is the item they'd like to purchase
         confirmItem(res[0].product_name, res);
@@ -135,7 +135,7 @@ var askHowMany = function (chosenItem){
         // if there are enough products in stock for purchase to go through
         } else {
             chosenItem.howMany = answer.howMany;
-            console.log('\n\tOrder processing...');
+            console.log('\n\tYou order is processing...');
 
             // update database to reflect new quantity
             connection.query('UPDATE products SET ? WHERE ?', [
@@ -147,7 +147,7 @@ var askHowMany = function (chosenItem){
                     item_id: chosenItem.item_id,
                 }
             ], (err, res) => {
-                console.log(chalk.blue.bold(`\n\tYour order has been completed.Your total was $${(chosenItem.price * chosenItem.howMany).toFixed(2)}.\n`));
+                console.log(chalk.blue.bold(`\n\tYour order has been completed! Your total was $${(chosenItem.price * chosenItem.howMany).toFixed(2)}.\n`));
 
                 // ask if user would like to make another purchase
                 promptNewPurchase();
