@@ -77,7 +77,7 @@ var askUserForID = function() {
 };
 
 // Function to confirm if the item the user chose is correct
-var confirmItem = function(produdct, object) {
+var confirmItem = function(product, object) {
     inquirer.prompt({
         name: 'confirmItem',
         type: 'confirm',
@@ -97,3 +97,79 @@ var confirmItem = function(produdct, object) {
         }
     });
 }
+
+// Function that asks user how many of the item they would like to purchase
+var askHowMany = function (chosenItem){
+    inquirer.prompt ({
+        name: 'howMany',
+        type: 'input',
+        message: 'how many of the item would you like to purchase?',
+        validate: (value) => {
+            if (!isNaN(value) && value > 0) {
+                return true;
+            } else {
+                console.log(' => please enter a number greater than 0');
+                return false;
+            }
+        }
+
+    }).then ((answer) => {
+    connection.query('SELECT stock_quantity FROM products WHERE ?', { item_id: chosenItem.item_id }, (err, res) => {
+        // if there are not enough products in stock
+        if (res[0].stock_quantity < answer.howMany) {
+            console.log('\n\tSorry, insufficient quantity in stock!\n');
+            // confirm if user would still like to buy this product
+            inquirer.prompt({
+                name: 'proceed',
+                type: 'confirm',
+                message: 'Would you still like to purchase this product?'
+            }).then((answer) => {
+                if (answer.proceed) {
+                    askHowMany(chosenItem.item_id);
+                } else {
+                    console.log('\n\tThanks for visiting! We hope to see you again soon.\n');
+                    connection.end();
+                }
+            });
+
+        // if there are enough products in stock for purchase to go through
+        } else {
+            chosenItem.howMany = answer.howMany;
+            console.log('\n\tOrder processing...');
+
+            // update database to reflect new quantity
+            connection.query('UPDATE products SET ? WHERE ?', [
+                {
+                    stock_quantity: chosenItem.stock_quantity - answer.howMany,
+                    product_sales: chosenItem.product_sales + (chosenItem.price * answer.howMany)
+                },
+                {
+                    item_id: chosenItem.item_id,
+                }
+            ], (err, res) => {
+                console.log(chalk.blue.bold(`\n\tYour order has been completed.Your total was $${(chosenItem.price * chosenItem.howMany).toFixed(2)}.\n`));
+
+                // ask if user would like to make another purchase
+                promptNewPurchase();
+            });
+        }
+    });
+});
+}
+
+// function to ask if user would like to make another purchase
+var promptNewPurchase = function() {
+inquirer.prompt({
+    name: 'newPurchase',
+    type: 'confirm',
+    message: 'Would you like to make another purchase?'
+}).then((answer) => {
+    if (answer.newPurchase) {
+        resetCart();
+        askForID();
+    } else {
+        console.log(chalk.blue.bold('\n\tThank you for your business. Have a great day!\n'));
+        connection.end();
+    }
+});
+};
