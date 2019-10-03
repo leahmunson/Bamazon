@@ -1,7 +1,7 @@
 {
   "name": "Bamazon",
   "version": "1.0.0",
-  "description": "",
+  "description": "Overview:",
   "main": "bamazonCustomer.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -21,5 +21,6 @@
     "cli-table": "^0.3.1",
     "inquirer": "^7.0.0",
     "mysql": "^2.17.1"
-  }
+  },
+  "devDependencies": {}
 }

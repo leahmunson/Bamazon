@@ -40,7 +40,7 @@ var itemsForSale = function() {
             colWidths: [12,45,12]
         });
 
-        for (var i=0; i < res.length;i++) {
+        for (var i=0; i < showTable.length;i++) {
             showTable.push([res[i].item_id, res[i].product_name, `$${res[i].price}`]);
             console.log(res);
             

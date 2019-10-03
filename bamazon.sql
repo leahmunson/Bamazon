@@ -22,5 +22,6 @@ INSERT INTO products (product_name, department_name, price, stock_quantity) VALU
 ('Wall Clock', 'Home', 38.99, 345),
 ('Unisex Black Pullover', 'Bamazon Fashion', 19.99, 61),
 ('Addidas Socks 3 Pack', 'Bamazon Fashion', 115.99, 30),
-('Pantene Shampoo', 'Bath', 8.99, 82)
+('Pantene Shampoo', 'Bath', 8.99, 82);
 
+SELECT * FROM products;
