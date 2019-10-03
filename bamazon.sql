@@ -12,7 +12,7 @@ CREATE TABLE products (
     PRIMARY KEY (item_id)
 );
 
-INSERT INTO products (product_name, depeartment_name, price, stock_quantity) VALUES 
+INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES 
 ('Lamb Dog Toy', 'Pets', 5.99, 45),
 ('Apple Watch Series 5 40mm', 'Electronics', 399.99, 234),
 ('Beats Pill Speaker', 'Electronics', 109.99, 32),

@@ -34,14 +34,16 @@ var resetCart = function() {
 
 // Function to show all items for sale
 var itemsForSale = function() {
-    connection.query('SELECT * FROM prdoucts', (err,res) => {
+    connection.query(`SELECT * FROM prdoucts`, (err,res) => {
         var showTable = new Table({
             head: ['Item ID', 'Product Name', 'Price'],
             colWidths: [12,45,12]
         });
 
-        for (var i=0; i<res.length; i++){
+        for (var i=0; i < res.length;i++) {
             showTable.push([res[i].item_id, res[i].product_name, `$${res[i].price}`]);
+            console.log(res);
+            
         }
 
         // Show table
@@ -81,7 +83,7 @@ var confirmItem = function(product, object) {
     inquirer.prompt({
         name: 'confirmItem',
         type: 'confirm',
-        message: `You chose` + product + `Is this correct?`
+        message: 'You chose' + product + '.  Is this correct?'
     }).then((answer) => {
         if (answer.confirmItem){
             chosenItem = {
